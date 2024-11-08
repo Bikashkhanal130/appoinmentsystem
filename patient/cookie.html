@@ -1,0 +1,76 @@
+cookie
+
+A cookie is a small piece of data that a web server sends to a browser.  browser stores this data and sends it back to the server
+
+Session
+
+A session refers to the time a user spends 
+interacting with a web application, often lasting from login to logout or until the user closes the browser
+
+
+
+-- Inserting a single record into a table
+INSERT INTO table_name (column1, column2, column3)
+VALUES (value1, value2, value3);
+
+-- Example
+INSERT INTO employees (name, age, department)
+VALUES ('John Doe', 30, 'HR');
+
+-- UPDATE QUERY FOR DATABASE 
+
+
+
+-- Updating a single record
+UPDATE table_name
+SET column1 = value1, column2 = value2
+WHERE condition;
+
+-- Example
+UPDATE employees
+SET department = 'Sales', age = 32
+WHERE name = 'John Doe';
+
+
+
+-- Delete Query for database 
+DELETE FROM table_name
+WHERE condition;
+
+-- Example
+DELETE FROM employees
+WHERE name = 'John Doe';                    CRUD 
+C CREATE 
+R READ  
+U Update 
+D  DELETE 
+
+-- Deleting multiple records (e.g., based on a condition)
+DELETE FROM employees
+WHERE age < 30;
+
+
+
+Create Query 
+-- Creating a new table
+CREATE TABLE table_name (
+    column1 datatype CONSTRAINTS,
+    column2 datatype CONSTRAINTS,
+    column3 datatype CONSTRAINTS,
+    ...
+);
+
+-- Example
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(100), 
+    id INT (4),
+    department VARCHAR(50)
+);
+
+CREATE DATABASE company;
+
+
+
+
+for localhost INSERT INTO `aaa` (`Name`, `id`, `bank_name`, `country_nepal`) VALUES ('bk ', '1 ', '1111', 'nnnn');
