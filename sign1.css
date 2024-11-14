@@ -1,0 +1,155 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container Styling */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Header Text */
+.header-text {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Sub Text */
+.sub-text {
+    font-size: 18px;
+    color: #777777;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Label */
+.form-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+}
+
+/* Input Styling */
+.input-text {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fafafa;
+    transition: border-color 0.3s ease;
+}
+
+.input-text:focus {
+    border-color: #0066cc;
+    outline: none;
+    background-color: #fff;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+}
+
+/* Button Styling */
+.login-btn {
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #0066cc;
+    color: #fff;
+}
+
+.btn-primary-soft {
+    background-color: #e0f2ff;
+    color: #0066cc;
+    border: 1px solid #0066cc;
+}
+
+.login-btn:hover {
+    opacity: 0.9;
+}
+
+.login-btn:active {
+    background-color: #005bb5;
+}
+
+/* Reset Button */
+input[type="reset"] {
+    background-color: #f44336;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+}
+
+input[type="reset"]:hover {
+    opacity: 0.8;
+}
+
+/* Links */
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .header-text {
+        font-size: 28px;
+    }
+
+    .sub-text {
+        font-size: 16px;
+    }
+
+    .input-text {
+        font-size: 14px;
+    }
+
+    .login-btn {
+        font-size: 14px;
+    }
+
+    input[type="reset"] {
+        font-size: 14px;
+    }
+}

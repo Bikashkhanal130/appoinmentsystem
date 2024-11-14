@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  body {
+    position: relative;
+    background: #f2f3f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .form {
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .form p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .fields-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .otp_field {
+    width: 70px;
+    height: 70px;
+    font-size: 32px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    outline: none;
+  }
+  
+  .form form .button {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #006692;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .form form .error-text{
+  
+    display: none;
+    color: #851923;
+    padding: 4px 6px;
+    text-align: center;
+    border-radius: 4px;
+    background: #ffe3e5;
+    border: 1px solid #dfa5ab;
+    margin-bottom: 8px;
+  }
+  
+  .form form .button:hover {
+    background-color: #00587a;
+  }
+  
+  @media screen and (max-width: 480px) {
+    .opt_field {
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+    }
+  }
+  
+  
+  /* form.css */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  body {
+    position: relative;
+    background: #e0d8d8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .form {
+    position: relative;
+    background: #f2f3f7;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .form p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .form a {
+    color: #006692;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .form a:hover {
+    text-decoration: underline;
+  }
