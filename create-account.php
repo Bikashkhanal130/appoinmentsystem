@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 // Start the session
 session_start();
 if (isset($_SESSION['SESSION_EMAIL'])) {
-    header("Location: welcome.php");
+    header("Location: otp_verify.php");
     die();
 }
 
@@ -42,32 +42,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             } else {
                 // Check if password and confirm password match
                 if ($password === $confirm_password) {
-                    // Insert new user into the database
-                    $sql = "INSERT INTO users (tele, nic, email, password, code) VALUES ('{$tele}', '{$nic}', '{$email}', '{$password}', '{$code}')";
+                    // Generate a random 6-digit OTP
+                    $otp = rand(100000, 999999);
+
+                    // Insert new user into the database with OTP
+                    $sql = "INSERT INTO users (tele, nic, email, password, code, otp) VALUES ('{$tele}', '{$nic}', '{$email}', '{$password}', '{$code}', '{$otp}')";
                     $result = mysqli_query($conn, $sql);
 
                     if ($result) {
-                        // Send verification email
+                        // Send OTP email
                         $mail = new PHPMailer(true);
                         try {
                             $mail->isSMTP();
                             $mail->Host       = 'smtp.gmail.com';
                             $mail->SMTPAuth   = true;
-                            $mail->Username   = 'your_email@gmail.com';
-                            $mail->Password   = 'your_email_password';
+                            $mail->Username   = 'info.doctorappointmentsystem@gmail.com';
+                            $mail->Password   = 'toku xsvx fbdf hmep'; // Consider using environment variables for security
                             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                             $mail->Port       = 465;
 
-                            $mail->setFrom('your_email@gmail.com', 'Your Website');
+                            $mail->setFrom('info.doctorappointmentsystem@gmail.com', 'Doctor Appointment System');
                             $mail->addAddress($email);
 
                             $mail->isHTML(true);
-                            $mail->Subject = 'Account Verification';
-                            $mail->Body    = 'Please verify your account by clicking the following link: 
-                                              <b><a href="http://localhost/login/?verification=' . $code . '">Verify Account</a></b>';
+                            $mail->Subject = 'Account Verification OTP';
+                            $mail->Body    = 'Please use the following OTP to verify your account: <b>' . $otp . '</b>';
 
                             $mail->send();
-                            $msg = "<div class='alert alert-info'>Verification link has been sent to your email address.</div>";
+                            $msg = "<div class='alert alert-info'>An OTP has been sent to your email address.</div>";
                         } catch (Exception $e) {
                             $msg = "<div class='alert alert-danger'>Message could not be sent. Mailer Error: {$mail->ErrorInfo}</div>";
                         }
@@ -84,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 }
 ?>
+
 
 
 
@@ -124,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                     </tr>
                     <tr>
                         <td colspan="2" class="label-td">
-                            <input type="text" name="nic" class="input-text" placeholder="NIC Number (9 characters)" required>
+                            <input type="text" name="nic" class="input-text" placeholder="NIC Number (9 characters)">
                         </td>
                     </tr>
                     <tr>
