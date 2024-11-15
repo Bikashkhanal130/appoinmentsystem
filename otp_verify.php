@@ -7,7 +7,7 @@ $msg = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
     // Get OTP from the form
-    $entered_otp = mysqli_real_escape_string($conn, $_POST['otp']);
+    $entered_otp = mysqli_real_escape_string($database, $_POST['otp']);
 
     // Ensure OTP exists in the session
     if (isset($_SESSION['otp']) && isset($_SESSION['email'])) {
@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
 
         if ($entered_otp == $stored_otp) {
             // Update the database to mark the user as verified
-            $update = mysqli_query($conn, "UPDATE users SET verified = 1 WHERE email = '$email'");
+            $update = mysqli_query($database, "UPDATE users SET verified = 1 WHERE email = '$email'");
             if ($update) {
-                if (mysqli_affected_rows($conn) > 0) {
+                if (mysqli_affected_rows($database) > 0) {
                     $msg = "Account verified successfully! You can now log in.";
                     session_unset(); // Clear session data
                     header("Location: login.php");

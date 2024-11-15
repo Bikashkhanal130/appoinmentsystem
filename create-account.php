@@ -22,12 +22,12 @@ $msg = ""; // Initialize message variable
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Validate form inputs
     if (!empty($_POST['tele']) && !empty($_POST['nic']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['confirm-password'])) {
-        $tele = mysqli_real_escape_string($conn, $_POST['tele']);
-        $nic = mysqli_real_escape_string($conn, $_POST['nic']);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $tele = mysqli_real_escape_string($database, $_POST['tele']);
+        $nic = mysqli_real_escape_string($database, $_POST['nic']);
+        $email = mysqli_real_escape_string($database, $_POST['email']);
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm-password'];
-        $code = mysqli_real_escape_string($conn, md5(rand())); // Generate verification code
+        $code = mysqli_real_escape_string($database, md5(rand())); // Generate verification code
 
         // Validate phone number and NIC number
         if (strlen($tele) != 10 || !is_numeric($tele)) {
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $msg = "<div class='alert alert-danger'>NIC number must be exactly 9 characters.</div>";
         } else {
             // Check if email or phone number already exists
-            $check_user = mysqli_query($conn, "SELECT * FROM users WHERE email='{$email}' OR tele='{$tele}'");
+            $check_user = mysqli_query($database, "SELECT * FROM users WHERE email='{$email}' OR tele='{$tele}'");
             if (mysqli_num_rows($check_user) > 0) {
                 $msg = "<div class='alert alert-danger'>Email or phone number already registered.</div>";
             } else {
@@ -50,7 +50,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
                     // Insert new user into the database with OTP
                     $sql = "INSERT INTO users (tele, nic, email, password, code, otp, verified) VALUES ('{$tele}', '{$nic}', '{$email}', '{$password_hash}', '{$code}', '{$otp}', 0)";
-                    $result = mysqli_query($conn, $sql);
+                    $result = mysqli_query($database, $sql);
+
+                    // create patient in webuser
+                    $sql = "INSERT INTO webuser (email, usertype) VALUES
+                    ('$email', 'p')";
+                    $result = $database->query($sql);
+
+                    // Insert patient into patient table
+                    $sql = "INSERT INTO patient (pemail, pname, ppassword, paddress, pnic, pdob, ptel) VALUES
+                    ('$email', CONCAT('{$_SESSION['personal']['fname']}', ' ', '{$_SESSION['personal']['lname']}'), '$password_hash', '{$_SESSION['personal']['address']}', '$nic', '{$_SESSION['personal']['dob']}', '$tele')";
+                    $result = $database->query($sql);
 
                     if ($result) {
                         // Send OTP email
