@@ -25,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         $tele = mysqli_real_escape_string($conn, $_POST['tele']);
         $nic = mysqli_real_escape_string($conn, $_POST['nic']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $password = mysqli_real_escape_string($conn, md5($_POST['password']));
-        $confirm_password = mysqli_real_escape_string($conn, md5($_POST['confirm-password']));
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm-password'];
         $code = mysqli_real_escape_string($conn, md5(rand())); // Generate verification code
 
         // Validate phone number and NIC number
@@ -42,11 +42,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             } else {
                 // Check if password and confirm password match
                 if ($password === $confirm_password) {
+                    // Hash the password
+                    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
                     // Generate a random 6-digit OTP
                     $otp = rand(100000, 999999);
 
                     // Insert new user into the database with OTP
-                    $sql = "INSERT INTO users (tele, nic, email, password, code, otp) VALUES ('{$tele}', '{$nic}', '{$email}', '{$password}', '{$code}', '{$otp}')";
+                    $sql = "INSERT INTO users (tele, nic, email, password, code, otp) VALUES ('{$tele}', '{$nic}', '{$email}', '{$password_hash}', '{$code}', '{$otp}')";
                     $result = mysqli_query($conn, $sql);
 
                     if ($result) {
@@ -70,6 +73,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
                             $mail->send();
                             $msg = "<div class='alert alert-info'>An OTP has been sent to your email address.</div>";
+
+                            //setting generated otp to session variable
+                            $_SESSION['otp'] = $otp;
+                             $_SESSION['email'] = $email; 
+                             if (!isset($_SESSION['otp']) || !isset($_SESSION['email'])) { 
+                                echo "<div class='alert alert-danger'>Failed to set session variables.</div>"; } 
+                                else { header("Location: otp_verify.php"); exit(); 
+                                }
+
+                            //redirecting to veryfy otp page
+                            header("Location: otp_verify.php");
+                            exit();
                         } catch (Exception $e) {
                             $msg = "<div class='alert alert-danger'>Message could not be sent. Mailer Error: {$mail->ErrorInfo}</div>";
                         }
@@ -86,11 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 }
 ?>
-
-
-
-
-
 
 <!-- HTML form for user registration -->
 <!DOCTYPE html>

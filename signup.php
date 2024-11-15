@@ -45,10 +45,6 @@ if($_POST){
 
     print_r($_SESSION["personal"]);
     header("location: create-account.php");
-
-
-
-
 }
 
 ?>

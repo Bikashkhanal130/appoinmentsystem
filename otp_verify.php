@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
     // Get OTP from the form
     $entered_otp = mysqli_real_escape_string($conn, $_POST['otp']);
 
-    // Ensure OTP exists in the session or database
+    // Ensure OTP exists in the session
     if (isset($_SESSION['otp']) && isset($_SESSION['email'])) {
         $stored_otp = $_SESSION['otp'];
         $email = $_SESSION['email'];
@@ -18,10 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
             // Update the database to mark the user as verified
             $update = mysqli_query($conn, "UPDATE users SET verified = 1 WHERE email = '$email'");
             if ($update) {
-                $msg = "Account verified successfully! You can now log in.";
-                session_unset(); // Clear session data
-                header("Location: login.php"); // Redirect to login page
-                exit();
+                if (mysqli_affected_rows($conn) > 0) {
+                    $msg = "Account verified successfully! You can now log in.";
+                    session_unset(); // Clear session data
+                    header("Location: login.php");
+                    exit();
+                } else {
+                    $msg = "Database update did not affect any rows.";
+                }
             } else {
                 $msg = "Database error: " . mysqli_error($conn);
             }
