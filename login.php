@@ -50,8 +50,13 @@
             $utype=$result->fetch_assoc()['usertype'];
             if ($utype=='p'){
                 //TODO
+<<<<<<< HEAD
                 $checker = $database->query("select * from patient where pemail='$email'");
                 if ($checker->num_rows==1 && password_verify($password, $checker->fetch_assoc()['ppassword'])){
+=======
+                $checker = $database->query("select * from patient where pemail='$email' and ppassword='$password'");
+                if ($checker->num_rows==1){
+>>>>>>> c0e983920d5a13e50f3420a4253a2c33dbf038ff
 
 
                     //   Patient dashbord
