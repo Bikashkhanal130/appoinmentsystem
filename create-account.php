@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                     $otp = rand(100000, 999999);
 
                     // Insert new user into the database with OTP
-                    $sql = "INSERT INTO users (tele, nic, email, password, code, otp) VALUES ('{$tele}', '{$nic}', '{$email}', '{$password_hash}', '{$code}', '{$otp}')";
+                    $sql = "INSERT INTO users (tele, nic, email, password, code, otp, verified) VALUES ('{$tele}', '{$nic}', '{$email}', '{$password_hash}', '{$code}', '{$otp}', 0)";
                     $result = mysqli_query($conn, $sql);
 
                     if ($result) {
@@ -76,13 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
                             //setting generated otp to session variable
                             $_SESSION['otp'] = $otp;
-                             $_SESSION['email'] = $email; 
-                             if (!isset($_SESSION['otp']) || !isset($_SESSION['email'])) { 
-                                echo "<div class='alert alert-danger'>Failed to set session variables.</div>"; } 
-                                else { header("Location: otp_verify.php"); exit(); 
-                                }
+                            $_SESSION['email'] = $email;
 
-                            //redirecting to veryfy otp page
+                            //redirecting to verify OTP page
                             header("Location: otp_verify.php");
                             exit();
                         } catch (Exception $e) {
@@ -109,8 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/animations.css">  
-    <link rel="stylesheet" href="css/main.css">  
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/signup.css">
     <title>Create Account</title>
     <style>
