@@ -64,36 +64,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
                     if ($result) {
                         // Send OTP email
-                        $mail = new PHPMailer(true);
-                        try {
-                            $mail->isSMTP();
-                            $mail->Host       = 'smtp.gmail.com';
-                            $mail->SMTPAuth   = true;
-                            $mail->Username   = 'info.doctorappointmentsystem@gmail.com';
-                            $mail->Password   = 'toku xsvx fbdf hmep'; // Consider using environment variables for security
-                            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-                            $mail->Port       = 465;
+                        $subject = "Doctor Appointment System - Verify Your Email Address";
+                        $body = "Please use the following OTP to verify your account: <b>{$otp}</b>";
 
-                            $mail->setFrom('info.doctorappointmentsystem@gmail.com', 'Doctor Appointment System');
-                            $mail->addAddress($email);
+                        // Send email
+                        include 'mail-config.php';
+                        $msg = sendEmail($email, $subject, $body);
+                        
+                        //setting generated otp to session variable
+                        $_SESSION['otp'] = $otp;
+                        $_SESSION['email'] = $email;
 
-                            $mail->isHTML(true);
-                            $mail->Subject = 'Account Verification OTP';
-                            $mail->Body    = 'Please use the following OTP to verify your account: <b>' . $otp . '</b>';
-
-                            $mail->send();
-                            $msg = "<div class='alert alert-info'>An OTP has been sent to your email address.</div>";
-
-                            //setting generated otp to session variable
-                            $_SESSION['otp'] = $otp;
-                            $_SESSION['email'] = $email;
-
-                            //redirecting to verify OTP page
-                            header("Location: otp_verify.php");
-                            exit();
-                        } catch (Exception $e) {
-                            $msg = "<div class='alert alert-danger'>Message could not be sent. Mailer Error: {$mail->ErrorInfo}</div>";
-                        }
+                        //redirecting to verify OTP page
+                        header("Location: otp_verify.php");
+                        exit();
                     } else {
                         $msg = "<div class='alert alert-danger'>Something went wrong. Please try again.</div>";
                     }

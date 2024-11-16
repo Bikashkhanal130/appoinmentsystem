@@ -1,6 +1,9 @@
 <?php
-
+require '../vendor/autoload.php';
 //learn from w3schools.com
+
+// Including Mail Configuration
+include("../mail-config.php");
 
 session_start();
 
@@ -31,9 +34,24 @@ if ($_POST) {
         $scheduleid = $_POST["scheduleid"];
         $date = $_POST["date"];
         $sql2 = "insert into appointment(pid, apponum, scheduleid, appodate) values ($userid, $apponum, $scheduleid, '$date')";
-        $result = $database->query($sql2);
+        $database->query($sql2);
+
+        // notifying doctor
+        $docdetails = getDoctorDetails($database, $scheduleid);
+        echo "<script>console.log('Debug Objects: " . $docdetails["docemail"] , $docdetails["docname"], $apponum, $date. "' );</script>";
+        notifyDoctor($docdetails["docemail"], $docdetails["docname"], $apponum, $date);
+        
+        // notifying patient 
+        notifyPatient($useremail, $username, $apponum, $date, $docdetails["docname"]);
+        
+        // notify admin
+        $sql = "select * from admin";
+        $result = $database->query($sql);
+        while ($adminrow = $result->fetch_assoc()) {
+            notifyAdmin($adminrow["aemail"], $apponum, $date, $username, $docdetails["docname"]);
+        }
+
         header("location: appointment.php?action=booking-added&id=" . $apponum . "&titleget=none");
     }
 }
-
 ?>
