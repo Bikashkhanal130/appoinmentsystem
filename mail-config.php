@@ -49,13 +49,33 @@ function getDoctorDetails($database, $scheduleid) {
 }
 
 // notifying patient
+
+// notifying patient
+
+
 function notifyPatient($patientEmail, $username, $apponum, $date, $docname) {
     $subject = "Appointment Booked";
-    $body = "Dear " . $username . ",<br><br>Your appointment has been successfully booked.<br><br>Appointment Number: " . $apponum . "<br>Appointment Date: " . $date . "<br>
-    Doctor Name: " . $docname . "<br><br>Please be on time for your appointment.<br><br>
-    <br>Thank you for using our service.<br><br>Regards,<br>Doctor Appointment System";
+    $body = "Dear " . $username . ",<br><br>Your appointment has been successfully booked.<br><br>
+    Appointment Number: " . $apponum . "<br>
+    Appointment Date: " . $date . "<br>
+    Doctor Name: " . $docname . "<br><br>
+    Please be on time for your appointment.<br><br>
+    <strong>Hospital Location:</strong> <a href='https://maps.app.goo.gl/LF2EbZC7mquoTejR8' target='_blank'>Click here to view on Google Maps</a><br><br>
+    Thank you for using our service.<br><br>
+    Regards,<br>
+    Doctor Appointment System";
+    
     return sendEmail($patientEmail, $subject, $body);
 }
+
+
+// function notifyPatient($patientEmail, $username, $apponum, $date, $docname) {
+//     $subject = "Appointment Booked";
+//     $body = "Dear " . $username . ",<br><br>Your appointment has been successfully booked.<br><br>Appointment Number: " . $apponum . "<br>Appointment Date: " . $date . "<br>
+//     Doctor Name: " . $docname . "<br><br>Please be on time for your appointment.<br><br>
+//     <br>Thank you for using our service.<br><br>Regards,<br>Doctor Appointment System";
+//     return sendEmail($patientEmail, $subject, $body);
+// }
 
 // notify doctor
 function notifyDoctor($docemail, $docname, $apponum, $date) {
